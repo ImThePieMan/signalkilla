@@ -1,0 +1,16 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Копируем файлы проекта в рабочую директорию контейнера
+COPY . .
+
+# Устанавливаем зависимости
+RUN pip install -r requirements.txt
+
+# Копируем файл переменных окружения и экспортируем переменные
+COPY env_variables /app/env_variables
+RUN export $(cat /app/env_variables | xargs)
+
+# Запускаем бота
+CMD ["python", "bot.py"]
